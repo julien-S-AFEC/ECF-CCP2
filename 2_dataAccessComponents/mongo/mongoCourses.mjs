@@ -5,75 +5,67 @@ const courseSchema = new mongoose.Schema({
   content: String
 });
 
-const Course = mongoose.model('Course', courseSchema)
+const db = await mongoose.connect('mongodb://127.0.0.1:27017/ecf_ccp2')
+const Course = db.model('Course', courseSchema)
 
-const findAll = async () => {
-  try {
-    await mongoose.connect('mongodb://127.0.0.1:27017/ecf_ccp2');
-    const allCourses = await Course.find()
-    console.log(allCourses)
-  }
-  catch (error) {
-    console.log(error)
-  }
-}
-
-const findOne = async (name) => {
-  try {
-    await mongoose.connect('mongodb://127.0.0.1:27017/ecf_ccp2');
-    const course = await Course.find({ name: name });
-    console.log(course)
-  }
-  catch (error) {
-    console.log(error)
-  }
-}
-
-
-const insertOne = async () => {
-  try {
-    await mongoose.connect('mongodb://127.0.0.1:27017/ecf_ccp2');
-    const newCourse = new Course({ name: 'courseOne', content: "This is the course one" });
-    await newCourse.save();
-    console.log("Added a new course. Name:", newCourse.name, "Content:", newCourse.content);
-  }
-  catch (error) {
-    console.log(error)
-  }
-}
-
-const updateOne = async (name, newName, newContent) => {
-  try {
-    await mongoose.connect('mongodb://127.0.0.1:27017/ecf_ccp2');
-    const courseToUpdate = await Course.findOne({ name: name }).exec()
-    if (!courseToUpdate) {
-      throw new Error("The course is not found.")
+export const CourseModel = {
+  findAll: async () => {
+    try {
+      const allCourses = await Course.find()
+      return allCourses
     }
-    await courseToUpdate.updateOne({ name: newName, content: newContent })
-    console.log("Successfully updated the course");
-  }
-  catch (error) {
-    console.log(error)
-  }
-}
-
-const deleteOne = async (name, newName, newContent) => {
-  try {
-    await mongoose.connect('mongodb://127.0.0.1:27017/ecf_ccp2');
-    const courseToDelete = await Course.findOne({ name: name }).exec()
-    if (!courseToDelete) {
-      throw new Error("The course is not found.")
+    catch (error) {
+      throw new Error(error)
     }
-    await courseToDelete.deleteOne({ name: name })
-    console.log("Successfully deleted the course");
-  }
-  catch (error) {
-    console.log(error)
+  },
+
+  findOne: async (name) => {
+    try {
+      const course = await Course.findOne({ name: name });
+      return course
+    }
+    catch (error) {
+      throw new Error(error)
+    }
+  },
+
+
+  insertOne: async (name, content) => {
+    try {
+      const newCourse = new Course({ name: name, content: content });
+      await newCourse.save();
+      return "Added a new course. Name:", newCourse.name, "Content:", newCourse.content
+    }
+    catch (error) {
+      throw new Error(error)
+    }
+  },
+
+  updateOne: async (name, newName, newContent) => {
+    try {
+      const courseToUpdate = await Course.findOne({ name: name }).exec()
+      if (!courseToUpdate) {
+        throw new Error("The course is not found.")
+      }
+      await courseToUpdate.updateOne({ name: newName, content: newContent })
+      return courseToUpdate
+    }
+    catch (error) {
+      throw new Error(error)
+    }
+  },
+
+  deleteOne: async (name, newName, newContent) => {
+    try {
+      const courseToDelete = await Course.findOne({ name: name }).exec()
+      if (!courseToDelete) {
+        throw new Error("The course is not found.")
+      }
+      await courseToDelete.deleteOne({ name: name })
+      return courseToDelete
+    }
+    catch (error) {
+      throw new Error(error)
+    }
   }
 }
-
-// findAll()
-// insertOne()
-// findOne('courseTwo')
-// updateOne('courseTwo', 'newCourseTwo', 'This is a new course two')
-// deleteOne('courseThree')
