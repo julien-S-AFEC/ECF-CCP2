@@ -7,11 +7,13 @@
    ```sh
    cd 3_backEndDevelopment
    ```
+
 2. **Install Dependencies**:
 
    ```sh
    npm install
    ```
+
 3. **Start the Server**:
 
    ```sh
@@ -19,6 +21,46 @@
    ```
 
 ---
+
+## Overall view
+
+```markdown
+                                  ┌─────────────────────────┐
+                                  │ 🖥️ User Interface       │
+                                  └─────────────┬───────────┘
+                                  ┌─────────────────────────┐
+                                  │ 🔑 JWT Middleware       │
+                                  └─────────────┬───────────┘
+                                                │
+                                                ▼                                                
+                        ┌───────────────────────┴───────────────────────┐
+                        ▼                                               ▼
+          ┌─────────────────────────┐                        ┌─────────────────────────┐
+          │ 📚 Courses Controller   │                        │ 👤 Users Controller     │
+          └─────────────┬───────────┘                        └─────────────┬───────────┘
+                        │                                                  │
+          ┌─────────────────────────┐                        ┌─────────────────────────┐
+          │ 📚 Courses Model        │                        │ 👤 Users Model         │
+          └─────────────┬───────────┘                        └─────────────┬───────────┘
+                        │                                                  │
+                        └───────────────────────┬──────────────────────────┘
+                                                ▼
+                                  ┌─────────────────────────┐
+                                  │ ⚠️ Error Handling       │
+                                  └─────────────────────────┘
+                                                ▼                                                
+                        ┌───────────────────────┴───────────────────────┐
+                        ▼                                               ▼
+          ┌─────────────────────────┐                        ┌──────────────────────────┐
+          │ 📚 Courses Controller   │                        │ 👤 Users Controller     │
+          └─────────────┬───────────┘                        └────────────┬─────────────┘
+                        │                                                 │
+                        └───────────────────────┬─────────────────────────┘
+                                                ▼
+                                  ┌─────────────────────────┐
+                                  │ 🖥️ User Interface       │
+                                  └─────────────────────────┘                        
+```
 
 ## 📚 Courses Controller
 
@@ -271,42 +313,44 @@ Delete a user.
 
 ### JWT
 
-* `sessionValidation`: Middleware to validate the session token.
-* **Parameters**:
+- `sessionValidation`: Middleware to validate the session token.
+- **Parameters**:
 
-  * `req`: The request object.
-  * `res`: The response object.
-  * `next`: The next middleware function.
-* **Returns**: None
+  - `req`: The request object.
+  - `res`: The response object.
+  - `next`: The next middleware function.
+
+- **Returns**: None
 
 ### Joi
 
 #### `userSchema`: Schema for validating user data
 
-* **Properties**:
+- **Properties**:
 
-  * `id`: Number, integer, minimum value of 1, required, strict.
-  * `name`: String, pattern to match any character except `<` and `>`, optional.
-  * `email`: String, email format, required, pattern to match any character except `<` and `>`, optional.
-  * `password`: String, pattern to match any character except `<` and `>`, optional.
+  - `id`: Number, integer, minimum value of 1, required, strict.
+  - `name`: String, pattern to match any character except `<` and `>`, optional.
+  - `email`: String, email format, required, pattern to match any character except `<` and `>`, optional.
+  - `password`: String, pattern to match any character except `<` and `>`, optional.
 
 #### `courseSchema`: Schema for validating course data
 
-* **Properties**:
+- **Properties**:
 
-  * `id`: Number, integer, minimum value of 1, required, strict.
-  * `name`: String, pattern to match any character except `<` and `>`, optional.
-  * `newName`: String, pattern to match any character except `<` and `>`, optional.
-  * `content`: String, pattern to match any character except `<` and `>`, optional.
-  * `newContent`: String, pattern to match any character except `<` and `>`, optional.
+  - `id`: Number, integer, minimum value of 1, required, strict.
+  - `name`: String, pattern to match any character except `<` and `>`, optional.
+  - `newName`: String, pattern to match any character except `<` and `>`, optional.
+  - `content`: String, pattern to match any character except `<` and `>`, optional.
+  - `newContent`: String, pattern to match any character except `<` and `>`, optional.
 
 ### Error Handling
 
-* `errorHandling`: Middleware to handle errors.
-* **Parameters**:
+- `errorHandling`: Middleware to handle errors.
+- **Parameters**:
 
-  * `err`: The error object.
-  * `req`: The request object.
-  * `res`: The response object.
-  * `next`: The next middleware function.
-* **Returns**: None
+  - `err`: The error object.
+  - `req`: The request object.
+  - `res`: The response object.
+  - `next`: The next middleware function.
+
+- **Returns**: None
