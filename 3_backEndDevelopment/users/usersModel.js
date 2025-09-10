@@ -14,7 +14,7 @@ const UsersModel = {
             return rows
         }
         catch (error) {
-            throw new Error(error)
+            throw error
         }
     },
 
@@ -32,7 +32,7 @@ const UsersModel = {
             return rows[0]
         }
         catch (error) {
-            throw new Error(error)
+            throw error
         }
     },
 
@@ -49,7 +49,7 @@ const UsersModel = {
             return rows
         }
         catch (error) {
-            throw new Error(error)
+            throw error
         }
     },
 
@@ -69,7 +69,7 @@ const UsersModel = {
             return rows
         }
         catch (error) {
-            throw new Error(error)
+            throw error
         }
     },
 
@@ -85,7 +85,7 @@ const UsersModel = {
             return rows
         }
         catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 }

@@ -76,7 +76,8 @@ export const Users = {
             if (!rows.affectedRows) {
                 throw new Error("The user cannot be modified.")
             }
-            return rows
+            const updatedUser = await Users.getById(id)
+            return updatedUser
         }
         catch (error) {
             throw new Error(error.message)
@@ -92,7 +93,7 @@ export const Users = {
             if (!rows.affectedRows) {
                 throw new Error("The user cannot be deleted.")
             }
-            return rows
+            return id
         }
         catch (error) {
             throw new Error(error.message)

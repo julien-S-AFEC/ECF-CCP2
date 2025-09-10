@@ -5,7 +5,7 @@ import { courseSchema } from '../config/joi.js'
 const courseController = {
     findAll: (req, res, next) => {
         CourseModel.findAll()
-            .then(users => res.status(200).json({ users }))
+            .then(courses => res.status(200).json({ courses }))
             .catch(error => next(error))
     },
 
@@ -16,7 +16,7 @@ const courseController = {
         }
 
         CourseModel.findOne(value)
-            .then(user => res.status(200).json({ user }))
+            .then(course => res.status(200).json({ course }))
             .catch(error => next(error))
     },
 

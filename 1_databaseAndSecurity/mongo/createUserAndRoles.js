@@ -1,8 +1,18 @@
 db.createRole({
-  role: "courseReadWrite",
+  role: "coursesReadWrite",
   privileges: [
     {
-      resource: { db: "ecf_ccp2", collection: "course" },
+      resource: { db: "ecf_ccp2", collection: "courses" },
+      actions: ["find", "insert", "update", "remove"]
+    }
+  ],
+  roles: []
+})
+db.createRole({
+  role: "usersReadWrite",
+  privileges: [
+    {
+      resource: { db: "ecf_ccp2", collection: "users" },
       actions: ["find", "insert", "update", "remove"]
     }
   ],
@@ -12,5 +22,5 @@ db.createRole({
 db.createUser({
   user: "app_user",
   pwd: "AppUser123!",
-  roles: [ { role: "courseReadWrite", db: "ecf_ccp2" } ]
+  roles: [{ role: "coursesReadWrite", db: "ecf_ccp2" }, { role: "usersReadWrite", db: "ecf_ccp2" }]
 })

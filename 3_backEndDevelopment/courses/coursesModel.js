@@ -15,17 +15,20 @@ export const CourseModel = {
             return allCourses
         }
         catch (error) {
-            throw new Error(error)
+            throw error
         }
     },
 
     findOne: async (name) => {
         try {
             const course = await Course.findOne({ name: name });
+            if (!course) {
+                return "The course is not found."
+            }
             return course
         }
         catch (error) {
-            throw new Error(error)
+            throw error
         }
     },
 
@@ -37,7 +40,7 @@ export const CourseModel = {
             return {id: newCourse.id, name: newCourse.name, content: newCourse.content}
         }
         catch (error) {
-            throw new Error(error)
+            throw error
         }
     },
 
@@ -51,7 +54,7 @@ export const CourseModel = {
             return courseToUpdate
         }
         catch (error) {
-            throw new Error(error)
+            throw error
         }
     },
 
@@ -65,7 +68,7 @@ export const CourseModel = {
             return courseToDelete
         }
         catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 }

@@ -1,38 +1,61 @@
-import { CourseModel } from './mongoCourses.mjs'
+import { CourseModel } from './mongoCourses.mjs';
 
+const testFindAll = async () => {
+  try {
+    const courses = await CourseModel.findAll();
+    console.log("The courses:", courses);
+  } catch (error) {
+    console.error("Error in testFindAll:", error);
+  }
+};
 
-const testFindAll = () => {
-    CourseModel.findAll()
-        .then(course => console.log("The courses:", course))
-        .catch(error => { console.log(error) })
-}
+const testFindOne = async (name) => {
+  try {
+    const course = await CourseModel.findOne(name);
+    console.log("The course:", course);
+  } catch (error) {
+    console.error(`Error in testFindOne(${name}):`, error);
+  }
+};
 
-const testFindOne = (name) => {
-    CourseModel.findOne(name)
-        .then(course => console.log("The course:", course))
-        .catch(error => { console.log(error) })
-}
+const testInsertOne = async (name, content) => {
+  try {
+    const newCourse = await CourseModel.insertOne(name, content);
+    console.log("The new course:", newCourse);
+  } catch (error) {
+    console.error("Error in testInsertOne:", error);
+  }
+};
 
-const testInsertOne = (name, content) => {
-    CourseModel.insertOne(name, content)
-        .then(newCourse => console.log("The new course:", newCourse))
-        .catch(error => { console.log(error) })
-}
+const testUpdateOne = async (name, newName, newContent) => {
+  try {
+    const updatedCourse = await CourseModel.updateOne(name, newName, newContent);
+    console.log("The updated course:", updatedCourse);
+  } catch (error) {
+    console.error(`Error in testUpdateOne(${name}):`, error);
+  }
+};
 
-const testUpdateOne = (name, newName, newContent) => {
-    CourseModel.updateOne(name, newName, newContent)
-        .then(updatedCourse => console.log("The updated course:", updatedCourse))
-        .catch(error => { console.log(error) })
-}
+const testDeleteOne = async (name) => {
+  try {
+    const deletedCourse = await CourseModel.deleteOne(name);
+    console.log("The deleted course:", deletedCourse);
+  } catch (error) {
+    console.error(`Error in testDeleteOne(${name}):`, error);
+  }
+};
 
-const testDeleteOne = (name) => {
-    CourseModel.deleteOne(name)
-        .then(deletedCourse => console.log("The deleted course:", deletedCourse))
-        .catch(error => { console.log(error) })
-}
+// ------------------ Run tests in sequence ------------------
+const runTests = async () => {
+  try {
+    await testInsertOne("SalutDeux", "C'est un cours, lol Deux");
+    await testFindAll();
+    await testFindOne("SalutDeux");
+    await testUpdateOne("SalutDeux", "SalutDeux", "blablablaaaaaaaaaaaaa");
+    await testDeleteOne("SalutDeux");
+  } catch (error) {
+    console.error("Error while running tests:", error);
+  }
+};
 
-// testFindAll()
-// testFindOne('Salut')
-// testInsertOne("SalutDeux", "C'est un cours, lol Deux")
-// testUpdateOne('SalutDeux', "SalutDeux", "blablablaaaaaaaaaaaaa")
-// testDeleteOne('SalutDeux')
+runTests();

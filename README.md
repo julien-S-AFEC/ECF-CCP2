@@ -2,148 +2,223 @@
 
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)  ![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)  ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)  ![Joi](https://img.shields.io/badge/Joi-FF8800?style=for-the-badge&logo=joi&logoColor=white)  ![bcrypt](https://img.shields.io/badge/Bcrypt-3388FF?style=for-the-badge&logo=lock&logoColor=white)  ![REST API](https://img.shields.io/badge/REST-02569B?style=for-the-badge&logo=swagger&logoColor=white)
 
-Base route:
+## Courses Controller
 
-```
-/users
-```
+### Routes:
 
-All routes are protected by middleware:
+1. **GET /findAll**
+   - **Description**: Retrieve all courses.
+   - **Request Body**: None
+   - **Response**:
+     ```json
+     {
+       "courses": [
+         {
+           "id": "string",
+           "name": "string",
+           "content": "string"
+         }
+       ]
+     }
+     ```
 
-```
-sessionValidation
-```
+2. **POST /findOne**
+   - **Description**: Retrieve a course by name.
+   - **Request Body**:
+     ```json
+     {
+       "name": "string"
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "course": {
+         "id": "string",
+         "name": "string",
+         "content": "string"
+       }
+     }
+     ```
 
----
+3. **POST /insertOne**
+   - **Description**: Insert a new course.
+   - **Request Body**:
+     ```json
+     {
+       "name": "string",
+       "content": "string"
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "id": "string",
+       "name": "string",
+       "content": "string"
+     }
+     ```
 
-## 1. Get All Users
+4. **PUT /updateOne**
+   - **Description**: Update an existing course.
+   - **Request Body**:
+     ```json
+     {
+       "name": "string",
+       "newName": "string",
+       "newContent": "string"
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "message": "Course successfully updated"
+     }
+     ```
 
-**Endpoint**
+5. **DELETE /deleteOne**
+   - **Description**: Delete a course.
+   - **Request Body**:
+     ```json
+     {
+       "name": "string"
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "message": "Successfully deleted the course string"
+     }
+     ```
 
-```
-GET /users/getAll
-```
+## Users Controller
 
-**Description**  
-Fetch all users from the database.
+### Routes:
 
-**Request Body**  
-_None_
+1. **GET /getAll**
+   - **Description**: Retrieve all users.
+   - **Request Body**: None
+   - **Response**:
+     ```json
+     {
+       "users": [
+         {
+           "id": "number",
+           "name": "string",
+           "email": "string",
+           "password": "string"
+         }
+       ]
+     }
+     ```
 
----
+2. **POST /getById**
+   - **Description**: Retrieve a user by ID.
+   - **Request Body**:
+     ```json
+     {
+       "id": "number"
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "user": {
+         "id": "number",
+         "name": "string",
+         "email": "string",
+         "password": "string"
+       }
+     }
+     ```
 
-## 2. Get User by ID
+3. **POST /insert**
+   - **Description**: Insert a new user.
+   - **Request Body**:
+     ```json
+     {
+       "name": "string",
+       "email": "string",
+       "password": "string"
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "id": "number",
+       "name": "string",
+       "email": "string",
+       "password": "string"
+     }
+     ```
 
-**Endpoint**
+4. **PUT /update**
+   - **Description**: Update an existing user.
+   - **Request Body**:
+     ```json
+     {
+       "id": "number",
+       "name": "string",
+       "email": "string",
+       "password": "string"
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "message": "User successfully updated"
+     }
+     ```
 
-```
-POST /users/getById
-```
+5. **DELETE /delete**
+   - **Description**: Delete a user.
+   - **Request Body**:
+     ```json
+     {
+       "id": "number"
+     }
+     ```
+   - **Response**:
+     ```json
+     {
+       "message": "The user number is successfully deleted"
+     }
+     ```
 
-**Description**  
-Fetch a single user by their ID.
+## JWT and Joi Documentation
 
-**Request Body**
+### JWT
 
-```json
-{
-  "id": 1
-}
-```
+- **sessionValidation**: Middleware to validate the session token.
+  - **Parameters**:
+    - `req`: The request object.
+    - `res`: The response object.
+    - `next`: The next middleware function.
+  - **Returns**: None
 
-**Validation**
+### Joi
 
-- `id`: required, must be a valid integer.
+- **userSchema**: Schema for validating user data.
+  - **Properties**:
+    - `id`: Number, integer, minimum value of 1, required, strict.
+    - `name`: String, pattern to match any character except `<` and `>`, optional.
+    - `email`: String, email format, required, pattern to match any character except `<` and `>`, optional.
+    - `password`: String, pattern to match any character except `<` and `>`, optional.
 
----
+- **courseSchema**: Schema for validating course data.
+  - **Properties**:
+    - `id`: Number, integer, minimum value of 1, required, strict.
+    - `name`: String, pattern to match any character except `<` and `>`, optional.
+    - `newName`: String, pattern to match any character except `<` and `>`, optional.
+    - `content`: String, pattern to match any character except `<` and `>`, optional.
+    - `newContent`: String, pattern to match any character except `<` and `>`, optional.
 
-## 3. Insert User
+### Error Handling
 
-**Endpoint**
-
-```
-POST /users/insert
-```
-
-**Description**  
-Create a new user. Password is hashed before storage.
-
-**Request Body**
-
-```json
-{
-  "name": "Alice",
-  "email": "alice@email.com",
-  "password": "securePassword123"
-}
-```
-
-**Validation**
-
-- `id`: forbidden (auto-generated).
-- `name`: required, string.
-- `email`: required, valid email.
-- `password`: required, string.
-
----
-
-## 4. Update User
-
-**Endpoint**
-
-```
-PUT /users/update
-```
-
-**Description**  
-Update an existing user. Password is always re-hashed.
-
-**Request Body**
-
-```json
-{
-  "id": 1,
-  "name": "Alice Updated",
-  "email": "alice.updated@email.com",
-  "password": "newPassword456"
-}
-```
-
-**Validation**
-
-- `id`: required.
-- `name`: required, string.
-- `email`: required, valid email.
-- `password`: required, string.
-
----
-
-## 5. Delete User
-
-**Endpoint**
-
-```
-DELETE /users/delete
-```
-
-**Description**  
-Delete a user by ID.
-
-**Request Body**
-
-```json
-{
-  "id": 1
-}
-```
-
-**Validation**
-
-- `id`: required, must be a valid integer.
-
----
-
-⚠️ **Error Handling**
-
-- If validation fails → `400 Bad Request` with Joi error details.
-- If DB query fails → error passed to next middleware (likely `500 Internal Server Error`).
+- **errorHandling**: Middleware to handle errors.
+  - **Parameters**:
+    - `err`: The error object.
+    - `req`: The request object.
+    - `res`: The response object.
+    - `next`: The next middleware function.
+  - **Returns**: None
